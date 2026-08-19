@@ -18,6 +18,9 @@ reports/*
 !reports/.gitkeep
 !reports/trivy-insecure-sample.txt
 !reports/trivy-hardened-sample.txt
+!reports/trivy-insecure-current.txt
+!reports/trivy-hardened-current.txt
+!reports/trivy-config-current.txt
 !reports/validation-sample.txt
 
 # OS/editor noise

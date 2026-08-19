@@ -13,7 +13,7 @@ The lab includes:
 - A hardened Dockerfile
 - Build and run scripts
 - Trivy scan instructions
-- Sanitized sample scan reports
+- Real Trivy scan reports and sanitized sample scan reports
 - Unit tests and app validation
 - Documentation explaining the security decisions
 
@@ -41,6 +41,9 @@ docker-container-hardening-lab/
 │   └── security-review.md
 ├── reports/
 │   ├── .gitkeep
+│   ├── trivy-config-current.txt
+│   ├── trivy-hardened-current.txt
+│   ├── trivy-insecure-current.txt
 │   ├── trivy-insecure-sample.txt
 │   ├── trivy-hardened-sample.txt
 │   └── validation-sample.txt
@@ -67,6 +70,8 @@ docker-container-hardening-lab/
 - Docker healthcheck in the hardened image
 - Safer file ownership and permissions
 - Trivy scanning commands
+- Reproducible Trivy report generation
+- Real current Trivy scan summaries
 - Sanitized example scan output
 - Unit tests and validation script
 
@@ -201,10 +206,49 @@ trivy config docker/Dockerfile.insecure
 trivy config docker/Dockerfile.hardened
 ```
 
-Sample sanitized reports are included:
+Generate project report files:
+
+```bash
+bash scripts/scan-images.sh
+```
+
+This writes:
+
+- `reports/trivy-insecure-current.txt`
+- `reports/trivy-hardened-current.txt`
+- `reports/trivy-config-current.txt`
+
+Trivy image scans should usually be run one at a time because Trivy uses a local cache/database lock. Running multiple scans in parallel can cause a cache lock timeout.
+
+If Docker is installed on Windows but Trivy is installed inside WSL, save the Docker image as a temporary archive and scan it with `--input`:
+
+```powershell
+docker save container-hardening-lab:insecure -o "$env:TEMP\container-hardening-lab-insecure.tar"
+wsl -e bash -lc "trivy image --input /mnt/c/path/to/container-hardening-lab-insecure.tar"
+```
+
+Current reports generated from this lab are included:
+
+- [`reports/trivy-insecure-current.txt`](reports/trivy-insecure-current.txt)
+- [`reports/trivy-hardened-current.txt`](reports/trivy-hardened-current.txt)
+- [`reports/trivy-config-current.txt`](reports/trivy-config-current.txt)
+
+Sanitized sample reports are also included:
 
 - [`reports/trivy-insecure-sample.txt`](reports/trivy-insecure-sample.txt)
 - [`reports/trivy-hardened-sample.txt`](reports/trivy-hardened-sample.txt)
+
+## Current Trivy Results
+
+Generated with Trivy `0.74.0` on `2026-08-19`.
+
+| Scan | Result |
+| --- | --- |
+| Insecure image vulnerability summary | Debian base image target: 3129 vulnerabilities |
+| Hardened image vulnerability summary | Debian base image target: 207 vulnerabilities |
+| Dockerfile misconfiguration scan | `Dockerfile.insecure`: 3 findings, `Dockerfile.hardened`: 0 findings |
+
+The goal is not to claim the hardened image has zero vulnerabilities. The goal is to show measurable risk reduction: fewer OS packages, a smaller attack surface, non-root execution, a healthcheck, safer file permissions, and cleaner Dockerfile configuration.
 
 ## Security Concepts Learned
 

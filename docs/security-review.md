@@ -48,6 +48,23 @@ File: `docker/Dockerfile.hardened`
 | Healthcheck | none | `/health` endpoint check |
 | Build context | riskier broad copy | controlled with `.dockerignore` |
 
+## Trivy Scan Results
+
+Current reports were generated with Trivy `0.74.0` on `2026-08-19`.
+
+| Scan | Insecure | Hardened |
+| --- | --- | --- |
+| Image vulnerability summary | Debian base image target: 3129 vulnerabilities | Debian base image target: 207 vulnerabilities |
+| Dockerfile misconfigurations | 3 findings | 0 findings |
+
+The hardened image still has vulnerability findings because it still depends on an operating system base image and Python runtime packages. That is normal in real container work. The important security lesson is that hardening reduces attack surface and makes risk easier to manage.
+
+The Dockerfile misconfiguration scan found these issues in the insecure Dockerfile:
+
+- Missing non-root `USER`
+- Missing `HEALTHCHECK`
+- Missing `--no-install-recommends` for `apt-get install`
+
 ## Mentor Notes
 
 This lab is not saying every real production container must look exactly like this hardened Dockerfile. Instead, it teaches the security reasoning behind common hardening decisions.
