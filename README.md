@@ -220,13 +220,6 @@ This writes:
 
 Trivy image scans should usually be run one at a time because Trivy uses a local cache/database lock. Running multiple scans in parallel can cause a cache lock timeout.
 
-If Docker is installed on Windows but Trivy is installed inside WSL, save the Docker image as a temporary archive and scan it with `--input`:
-
-```powershell
-docker save container-hardening-lab:insecure -o "$env:TEMP\container-hardening-lab-insecure.tar"
-wsl -e bash -lc "trivy image --input /mnt/c/path/to/container-hardening-lab-insecure.tar"
-```
-
 Current reports generated from this lab are included:
 
 - [`reports/trivy-insecure-current.txt`](reports/trivy-insecure-current.txt)
