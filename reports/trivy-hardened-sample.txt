@@ -1,0 +1,40 @@
+Sanitized Example Trivy Results
+Image: container-hardening-lab:hardened
+Purpose: Demonstrates the expected improvement from the hardened image.
+
+Command:
+trivy image --severity HIGH,CRITICAL container-hardening-lab:hardened
+
+Summary:
+Target: container-hardening-lab:hardened
+Base image: python:3.12-slim-bookworm
+
+Example findings:
+
+Library/Package       Severity   Example Issue
+--------------------  --------   --------------------------------------------
+No critical findings  CRITICAL   No critical findings in this sample report
+Review if present     HIGH       Validate any high findings from real scans
+
+Configuration improvements:
+
+[OK] Non-root runtime user configured
+Evidence: USER appuser
+Recommendation: Keep application processes running without root privileges.
+
+[OK] Healthcheck configured
+Evidence: HEALTHCHECK checks http://127.0.0.1:8000/health
+Recommendation: Keep healthchecks lightweight and reliable.
+
+[OK] Smaller base image used
+Evidence: FROM python:3.12-slim-bookworm
+Recommendation: Keep base images current and rebuild regularly.
+
+[OK] No debug mode enabled
+Evidence: APP_ENV=production and no FLASK_DEBUG=1
+Recommendation: Avoid debug settings in production-style images.
+
+Note:
+This is sanitized sample output for portfolio documentation. Real Trivy results
+depend on the date scanned, local Trivy version, vulnerability database, and base
+image package state.

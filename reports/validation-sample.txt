@@ -1,0 +1,24 @@
+Sample Validation Output
+
+Command:
+python -m unittest discover -s tests
+
+Output:
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+
+Command:
+python scripts/validate_app.py http://127.0.0.1:8000
+
+Output:
+[OK] App validation passed for http://127.0.0.1:8000
+
+Command:
+docker images "container-hardening-lab" --format "{{.Repository}}:{{.Tag}} {{.Size}}"
+
+Sample output:
+container-hardening-lab:hardened 213MB
+container-hardening-lab:insecure 1.71GB

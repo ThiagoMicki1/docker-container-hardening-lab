@@ -1,0 +1,26 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local environment and secrets
+.env
+*.env
+*.pem
+*.key
+
+# Generated local reports
+reports/*
+!reports/.gitkeep
+!reports/trivy-insecure-sample.txt
+!reports/trivy-hardened-sample.txt
+!reports/validation-sample.txt
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/

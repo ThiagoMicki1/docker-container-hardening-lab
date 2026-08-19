@@ -1,0 +1,26 @@
+# Intentionally insecure Dockerfile for learning purposes.
+# Do not use this Dockerfile for production.
+
+FROM python:3.10
+
+WORKDIR /app
+
+# Bad practice: installs extra packages that the app does not need.
+RUN apt-get update && apt-get install -y curl vim netcat-openbsd
+
+# Bad practice: copies the entire build context into the image.
+COPY . .
+
+# Bad practice: dependency versions are whatever requirements.txt currently says,
+# but this image does not minimize layers or cache carefully.
+RUN pip install -r requirements.txt
+
+# Bad practice: debug mode should not be enabled inside containers by default.
+ENV FLASK_DEBUG=1
+ENV APP_ENV=development
+
+EXPOSE 8000
+
+# Bad practice: the container runs as root because no USER is set.
+# Bad practice: flask dev server is not intended for production-style serving.
+CMD ["python", "app/app.py"]

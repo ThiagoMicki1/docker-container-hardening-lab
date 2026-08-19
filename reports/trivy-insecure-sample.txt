@@ -1,0 +1,42 @@
+Sanitized Example Trivy Results
+Image: container-hardening-lab:insecure
+Purpose: Demonstrates the type of findings expected from the intentionally insecure image.
+
+Command:
+trivy image --severity HIGH,CRITICAL container-hardening-lab:insecure
+
+Summary:
+Target: container-hardening-lab:insecure
+Base image: python:3.10
+
+Example findings:
+
+Library/Package       Severity   Example Issue
+--------------------  --------   --------------------------------------------
+debian base packages  HIGH       Older OS packages may contain known CVEs
+python packages       HIGH       Dependency versions should be reviewed
+curl                  HIGH       Extra package increases attack surface
+netcat-openbsd        HIGH       Unnecessary network utility inside container
+
+Configuration concerns:
+
+[HIGH] Container runs as root
+Evidence: Dockerfile has no USER instruction.
+Recommendation: Create a dedicated non-root user and use USER appuser.
+
+[WARN] Broad build context copy
+Evidence: Dockerfile uses COPY . .
+Recommendation: Copy only required application files and use .dockerignore.
+
+[WARN] Debug mode enabled
+Evidence: ENV FLASK_DEBUG=1
+Recommendation: Disable debug mode in container images.
+
+[WARN] No healthcheck
+Evidence: Dockerfile has no HEALTHCHECK instruction.
+Recommendation: Add a healthcheck for the /health endpoint.
+
+Note:
+This is sanitized sample output for portfolio documentation. Real Trivy results
+depend on the date scanned, local Trivy version, vulnerability database, and base
+image package state.
