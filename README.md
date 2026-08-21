@@ -113,7 +113,7 @@ source .venv/bin/activate
 Install dependencies:
 
 ```bash
-pip install -r requirements-dev.txt
+python -m pip install -r requirements-dev.txt
 ```
 
 ## Run The App Locally
@@ -263,9 +263,12 @@ More detail:
 - [`docs/container-security-concepts.md`](docs/container-security-concepts.md)
 - [`docs/security-review.md`](docs/security-review.md)
 
+## What I Struggled With
+
+The main tradeoff was showing real Docker hardening without turning the lab into a deployment project. I kept it focused on one small app, two Dockerfiles, and Trivy evidence so I can explain the insecure-vs-hardened differences clearly in an interview.
+
 ## Future Improvements
 
-- Add GitHub Actions to run tests and Trivy scans
 - Add Docker Compose for side-by-side local testing
 - Add SBOM generation with Trivy
 - Add image signing notes with Cosign

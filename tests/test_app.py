@@ -27,6 +27,7 @@ class AppTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertNotIn("secret", body)
+        self.assertFalse(body["debug_mode"])
 
 
 if __name__ == "__main__":
