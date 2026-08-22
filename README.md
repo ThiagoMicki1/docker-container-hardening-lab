@@ -13,6 +13,7 @@ The lab includes:
 - A hardened Dockerfile
 - Build and run scripts
 - Trivy scan instructions
+- Trivy SBOM generation script
 - Real Trivy scan reports and sanitized sample scan reports
 - Unit tests and app validation
 - Documentation explaining the security decisions
@@ -49,6 +50,7 @@ docker-container-hardening-lab/
 │   └── validation-sample.txt
 ├── scripts/
 │   ├── build-images.sh
+│   ├── generate-sbom.sh
 │   ├── run-hardened.sh
 │   ├── run-insecure.sh
 │   ├── scan-images.sh
@@ -220,6 +222,14 @@ This writes:
 
 Trivy image scans should usually be run one at a time because Trivy uses a local cache/database lock. Running multiple scans in parallel can cause a cache lock timeout.
 
+Generate a CycloneDX SBOM for the hardened image:
+
+```bash
+bash scripts/generate-sbom.sh
+```
+
+This writes `reports/container-hardening-lab-hardened-sbom.cdx.json`. The generated SBOM is gitignored because local SBOMs can be large and should be refreshed after rebuilding the image.
+
 Current reports generated from this lab are included:
 
 - [`reports/trivy-insecure-current.txt`](reports/trivy-insecure-current.txt)
@@ -270,7 +280,6 @@ The main tradeoff was showing real Docker hardening without turning the lab into
 ## Future Improvements
 
 - Add Docker Compose for side-by-side local testing
-- Add SBOM generation with Trivy
 - Add image signing notes with Cosign
 - Add Kubernetes deployment examples with security contexts
 - Add Hadolint Dockerfile linting
